@@ -60,9 +60,9 @@ Using a tool like Sequel Pro, you can connect to your mysql
 server much like you would with a locally hosted mysql. The
 container's port 3306 is mapped to your local port 3306.
 
-Host: 127.0.0.1
-User: root
-Password: password
+Host: 127.0.0.1  
+User: root  
+Password: password  
 
 In your WordPress config, change the host name to `mysql`.
 
@@ -76,5 +76,5 @@ by checking `docker ps`. You might see a number like "32976".
 Use that port to connect to the server. E.g.,
 
 ```
-telnet 127.0.0.1 32976`
-``
+telnet 127.0.0.1 32976
+```
