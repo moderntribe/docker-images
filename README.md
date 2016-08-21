@@ -33,22 +33,22 @@ downloads or builds the containers you need.
 Get the name of your container. E.g., "global_mysql_1". Then run:
 
 ```
-docker exec -it YOUR_CONTAINER /bin/bash
+docker exec -it YOUR_CONTAINER /bin/sh
 ```
 
 Or shorten this by adding the following to your `.bash_profile`:
 
 ```
-dbash()
+dsh()
 {
-  docker exec -i -t $1 /bin/bash
+  docker exec -i -t $1 /bin/sh
 }
 ```
 
 Then, to open a shell in a container:
 
 ```
-dbash YOUR_CONTAINER
+dsh YOUR_CONTAINER
 ```
 
 You'll find yourself using this on occasion to get a shell in
