@@ -1,5 +1,6 @@
 # Use Alpine Linux
 FROM alpine:latest
+MAINTAINER Modern Tribe
 
 # Environments
 ENV TIMEZONE            Etc/UTC
@@ -86,7 +87,6 @@ RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php7/php-fpm.conf && 
     echo "xdebug.remote_connect_back=1" >> /etc/php7/conf.d/xdebug.ini && \
     echo "xdebug.remote_port=9000" >> /etc/php7/conf.d/xdebug.ini && \
     echo "xdebug.force_display_errors=1" >> /etc/php7/conf.d/xdebug.ini
-
 
 
 # Composer
