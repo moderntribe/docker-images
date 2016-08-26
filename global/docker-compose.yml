@@ -1,5 +1,5 @@
 mysql:
-  image: mysql:5.5
+  image: moderntribe/mysql:5.5
   volumes:
     - mysqldata:/var/lib/mysql
     - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
