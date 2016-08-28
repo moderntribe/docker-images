@@ -1,20 +1,25 @@
-mysql:
-  image: moderntribe/mysql:5.5
-  volumes:
-    - mysqldata:/var/lib/mysql
-    - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
-  ports:
-    - "3306:3306"
-  environment:
-    - MYSQL_ROOT_PASSWORD=password
-proxy:
-  image: jwilder/nginx-proxy
-  ports:
-    - "80:80"
-    - "443:443"
-  volumes:
-    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    - ./nginx/proxy_settings.conf:/etc/nginx/conf.d/proxy_settings.conf:ro
-    - ./nginx/nginx.tmpl:/app/nginx.tmpl:ro
-    - ./nginx/certs:/etc/nginx/certs
-    - /var/run/docker.sock:/tmp/docker.sock
+version: "2"
+services:
+  mysql:
+    image: moderntribe/mysql:5.5
+    volumes:
+      - mysqldata:/var/lib/mysql
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+  proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/proxy_settings.conf:/etc/nginx/conf.d/proxy_settings.conf:ro
+      - ./nginx/nginx.tmpl:/app/nginx.tmpl:ro
+      - ./nginx/certs:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock
+volumes:
+  mysqldata:
+    external: true
