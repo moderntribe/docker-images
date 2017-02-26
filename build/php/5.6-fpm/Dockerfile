@@ -9,8 +9,9 @@ ENV MAX_UPLOAD           50M
 ENV PHP_MAX_FILE_UPLOAD  200
 ENV PHP_MAX_POST         100M
 
-RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     apk update && \
     apk upgrade && \
     apk add --update tzdata && \
@@ -21,8 +22,8 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
         curl \
         wget \
         grep \
-        php5-xdebug@community \
-        php5-memcached@testing \
+        php5-xdebug \
+        php5-memcached \
         php5-mcrypt \
         php5-soap \
         php5-openssl \
@@ -53,6 +54,8 @@ RUN echo "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/ap
         php5-ctype \
         php5-imap \
         php5-phar \
+        php5-posix \
+        php7-session \
         php5-fpm && \
 
     # Cleaning up
