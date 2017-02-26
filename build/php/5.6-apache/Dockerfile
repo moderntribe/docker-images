@@ -26,13 +26,12 @@ RUN docker-php-ext-install exif \
  && docker-php-ext-install zip \
  && docker-php-source delete
 
-RUN a2enmod rewrite
-
-RUN echo "\nInclude /etc/apache2/sites-enabled/*" >> /etc/apache2/apache2.conf \
+RUN a2enmod rewrite \
+ && echo "\nInclude /etc/apache2/sites-enabled/*" >> /etc/apache2/apache2.conf \
  && echo "\n<Directory /srv/www/>\n\tOptions Indexes FollowSymLinks\n\tAllowOverride All\n\tRequire all granted\n</Directory>" >> /etc/apache2/apache2.conf
 
-# memcached extension
-RUN echo '' | pecl install memcached \
+# memcached extension (2.2.0 is the last to support php 5.6)
+RUN echo '' | pecl install memcached-2.2.0 \
  && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/ext-memcached.ini
 
 # xdebug extension
