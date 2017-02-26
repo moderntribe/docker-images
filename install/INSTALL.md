@@ -95,3 +95,41 @@ And finally launch the service:
 ```
 sudo brew services restart dnsmasq
 ```
+
+## Performance tuning
+
+### Install docker-sync
+
+docker-sync is a utility for syncing files between your local file system
+and a shared volume inside the docker container. While not strictly necessary,
+it provides significant performance benefits compared to a simpler
+volume mounting strategy.
+
+```
+gem install docker-sync
+brew install fswatch
+brew install unison
+brew install python
+sudo easy_install pip
+sudo pip install unox
+sudo pip install macfsevents
+```
+
+### Improve MySQL disk flushing
+
+Docker for Mac flushes data to disk somewhat over-aggressively, causing
+MySQL writes to run unacceptably slowly. This can be tuned, but not
+currently through the Docker for Mac UI.
+
+See https://github.com/docker/for-mac/issues/668
+
+```
+$ cd ~/Library/Containers/com.docker.docker/Data/database/
+git reset --hard
+HEAD is now at 5e56922 last-start-time changed at 1487162086
+$ echo os >  com.docker.driver.amd64-linux/disk/on-flush 
+$ git add com.docker.driver.amd64-linux/disk/on-flush 
+$ git commit -s -m 'Use fsync'
+[master d0b523f] Use fsync
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ ```
