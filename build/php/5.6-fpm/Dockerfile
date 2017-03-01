@@ -80,6 +80,7 @@ RUN sed -i "s|;*daemonize\s*=\s*yes|daemonize = no|g" /etc/php5/php-fpm.conf && 
     sed -i "s|;*display_startup_errors =.*|display_startup_errors = on|i" /etc/php5/php.ini && \
     sed -i "s|;*error_reporting =.*|error_reporting = -1|i" /etc/php5/php.ini && \
 
+    sed -i "s|;*zend_extension|zend_extension|i" /etc/php5/conf.d/xdebug.ini && \
     echo "xdebug.remote_enable=1" >> /etc/php5/conf.d/xdebug.ini && \
     echo "xdebug.remote_autostart=0" >> /etc/php5/conf.d/xdebug.ini && \
     echo "xdebug.remote_connect_back=1" >> /etc/php5/conf.d/xdebug.ini && \
