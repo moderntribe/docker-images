@@ -51,7 +51,8 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositori
         php7-memcached \
         php7-phar \
         php7-fpm \
-        php7-xml && \
+        php7-xml \
+        php7-simplexml && \
 
     # Cleaning up
     mkdir /www && \
