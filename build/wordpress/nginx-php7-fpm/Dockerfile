@@ -58,8 +58,9 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositori
     mkdir /www && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
-    sed -i 's/^(;)?(\s+)?user(\s)?=(\s)?.*$/user = nginx/g' /etc/php7/php-fpm.d/www.conf
-    sed -i 's/^(;)?(\s+)?user(\s)?=(\s)?.*$/group = nginx/g' /etc/php7/php-fpm.d/www.conf
+
+# Copy in our php fpm config
+COPY php-fpm-www.conf /etc/php7/php-fpm.d/www.conf
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
