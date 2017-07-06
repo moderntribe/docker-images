@@ -63,8 +63,9 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositori
 RUN apk update && apk add ssmtp
 COPY ssmtp.conf /etc/ssmtp/ssmtp.conf
 
-# Copy in our php fpm config
+# Copy in our php config
 COPY php-fpm-www.conf /etc/php7/php-fpm.d/www.conf
+COPY php.ini /etc/php7/php.ini
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
