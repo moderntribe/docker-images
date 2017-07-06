@@ -59,6 +59,10 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositori
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 
+# SSMTP
+RUN apk update && apk add ssmtp
+COPY ssmtp.conf /etc/ssmtp/ssmtp.conf
+
 # Copy in our php fpm config
 COPY php-fpm-www.conf /etc/php7/php-fpm.d/www.conf
 
