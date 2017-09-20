@@ -17,6 +17,7 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositori
         curl \
         wget \
         grep \
+        ncurses \
         php7 \
         php7-common \
         php7-mcrypt \
@@ -96,4 +97,3 @@ RUN chmod +x /usr/local/bin/dockerfile-cmd.sh
 EXPOSE 80
 
 CMD ["/usr/local/bin/dockerfile-cmd.sh"]
-
