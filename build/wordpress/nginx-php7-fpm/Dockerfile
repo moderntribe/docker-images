@@ -90,6 +90,9 @@ RUN rm -rf /etc/nginx/sites-enabled
 RUN mkdir /etc/nginx/sites-enabled
 COPY site.conf /etc/nginx/sites-enabled/site.conf
 RUN mkdir -p /srv/logs
+RUN touch /srv/logs/access.log && touch /srv/logs/error.log && chown -R nginx:nginx /srv/logs
+RUN ln -sf /dev/stdout /srv/logs/access.log && \
+    ln -sf /dev/stderr /srv/logs/error.log
 COPY cmd.sh /usr/local/bin/dockerfile-cmd.sh
 RUN chmod +x /usr/local/bin/dockerfile-cmd.sh
 
