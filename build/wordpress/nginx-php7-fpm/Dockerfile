@@ -4,20 +4,26 @@ MAINTAINER Modern Tribe
 # Environments
 ENV TIMEZONE Etc/UTC
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    apk update && \
-    apk upgrade && \
-    apk add --update tzdata && \
+RUN apk add \
+        --repository "http://dl-cdn.alpinelinux.org/alpine/edge/main" \
+        --repository "http://dl-cdn.alpinelinux.org/alpine/edge/community" \
+        --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+        --update \
+        tzdata && \
     cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime && \
     echo "${TIMEZONE}" > /etc/timezone && \
-    apk add --update \
+    apk add \
+        --repository "http://dl-cdn.alpinelinux.org/alpine/edge/main" \
+        --repository "http://dl-cdn.alpinelinux.org/alpine/edge/community" \
+        --repository "http://dl-cdn.alpinelinux.org/alpine/edge/testing" \
+        --update \
+        libbsd=0.8.6-r1 \
         bash \
         curl \
         wget \
         grep \
         ncurses \
+        ssmtp \
         php7 \
         php7-common \
         php7-mcrypt \
@@ -54,14 +60,12 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositori
         php7-fpm \
         php7-xml \
         php7-simplexml && \
-
     # Cleaning up
     mkdir /www && \
     apk del tzdata && \
     rm -rf /var/cache/apk/*
 
 # SSMTP
-RUN apk update && apk add ssmtp
 COPY ssmtp.conf /etc/ssmtp/ssmtp.conf
 
 # Copy in our php config
@@ -80,18 +84,18 @@ RUN echo "installing WP-CLI" \
 # Nginx
 RUN apk --update add git
 
-RUN rm -rf /etc/nginx
-RUN git clone https://github.com/h5bp/server-configs-nginx /etc/nginx
+RUN rm -rf /etc/nginx && \
+    git clone https://github.com/h5bp/server-configs-nginx /etc/nginx && \
+    rm -rf /etc/nginx/sites-available && \
+    rm -rf /etc/nginx/sites-enabled && \
+    mkdir /etc/nginx/sites-enabled
 COPY fastcgi_params /etc/nginx/fastcgi_params
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY wordpress.conf /etc/nginx/wordpress.conf
-RUN rm -rf /etc/nginx/sites-available
-RUN rm -rf /etc/nginx/sites-enabled
-RUN mkdir /etc/nginx/sites-enabled
 COPY site.conf /etc/nginx/sites-enabled/site.conf
-RUN mkdir -p /srv/logs
-RUN touch /srv/logs/access.log && touch /srv/logs/error.log && chown -R nginx:nginx /srv/logs
-RUN ln -sf /dev/stdout /srv/logs/access.log && \
+RUN mkdir -p /srv/logs && \
+    touch /srv/logs/access.log && touch /srv/logs/error.log && chown -R nginx:nginx /srv/logs && \
+    ln -sf /dev/stdout /srv/logs/access.log && \
     ln -sf /dev/stderr /srv/logs/error.log
 COPY cmd.sh /usr/local/bin/dockerfile-cmd.sh
 RUN chmod +x /usr/local/bin/dockerfile-cmd.sh
